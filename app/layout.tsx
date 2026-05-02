@@ -3,8 +3,8 @@ import "./globals.css";
 import { CartProvider, ProductsProvider, OrdersProvider } from "./context/CartContext";
 
 export const metadata: Metadata = {
-  title: "Smart Home Dropshipping Store",
-  description: "Discover the latest smart home devices for automation, security, and energy savings. Shop thermostats, cameras, lights, and more with fast shipping.",
+  title: "SmartCart.in - Online Shopping for Electronics, Home & More",
+  description: "Shop online for smart home devices, electronics, kitchen essentials and more at best prices in India. Free delivery, easy returns.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50 text-gray-900">
+      <body className="bg-gray-100 text-gray-900">
         <OrdersProvider>
           <ProductsProvider>
             <CartProvider>

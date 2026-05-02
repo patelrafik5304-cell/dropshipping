@@ -3,30 +3,46 @@ import Footer from "../components/Footer";
 
 export default function About() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       <Header />
-      <main className="flex-grow py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold text-center mb-8">About Us</h1>
-          <p className="text-center mb-12 max-w-2xl mx-auto">
-            We are a dropshipping store specializing in smart home devices. Our mission is to bring innovative technology to your home, making life more convenient and secure.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
-              <p className="text-gray-600">
-                Founded in 2026, we started with a passion for smart technology. We source high-quality products from trusted suppliers to offer you the best in home automation.
-              </p>
+      <main className="flex-grow max-w-[1000px] mx-auto w-full px-4 py-6">
+        <div className="bg-white border border-gray-200 rounded-sm p-6 sm:p-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">About SmartCart</h1>
+
+          <div className="prose max-w-none text-gray-700">
+            <p className="mb-4">
+              Welcome to SmartCart.in, your one-stop destination for smart home devices and electronics at the best prices in India. We bring you a curated selection of quality products from trusted suppliers across the globe.
+            </p>
+
+            <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">Why Shop With Us?</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
+                <h3 className="font-bold text-gray-900 mb-1">Best Prices</h3>
+                <p className="text-sm">We negotiate directly with suppliers to bring you the lowest prices guaranteed.</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
+                <h3 className="font-bold text-gray-900 mb-1">Fast Delivery</h3>
+                <p className="text-sm">Free delivery on most orders. Get your items delivered right to your doorstep.</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
+                <h3 className="font-bold text-gray-900 mb-1">Easy Returns</h3>
+                <p className="text-sm">Not satisfied? Return within 30 days for a full refund, no questions asked.</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
+                <h3 className="font-bold text-gray-900 mb-1">24/7 Support</h3>
+                <p className="text-sm">Our customer service team is always ready to help with any queries.</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-2xl font-semibold mb-4">Our Values</h2>
-              <ul className="text-gray-600 list-disc list-inside">
-                <li>Quality and reliability</li>
-                <li>Customer satisfaction</li>
-                <li>Innovation</li>
-                <li>Sustainability</li>
-              </ul>
-            </div>
+
+            <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">Our Story</h2>
+            <p className="mb-4">
+              Founded in 2026, SmartCart started with a simple idea: make smart home technology accessible to everyone in India. Today, we serve thousands of customers across the country, offering everything from smart thermostats and security cameras to LED lighting and more.
+            </p>
+
+            <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">Contact Us</h2>
+            <p className="mb-4">
+              Have questions or feedback? Reach out to us at <a href="mailto:support@smartcart.in" className="text-cyan-700 hover:underline">support@smartcart.in</a> or call us at <span className="font-bold">1800-XXX-XXXX</span> (toll-free).
+            </p>
           </div>
         </div>
       </main>
