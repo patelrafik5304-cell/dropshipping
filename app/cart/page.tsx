@@ -1,164 +1,193 @@
-"use client";
+'use client'
 
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { useCart } from "../context/CartContext";
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { createBrowserSupabaseClient } from '@/lib/supabase'
+import type { CartItem, Product } from '@/types/supabase'
+import type { User } from '@supabase/supabase-js'
 
-export default function Cart() {
-  const { state, dispatch } = useCart();
+interface CartItemWithProduct extends CartItem {
+  products: Product | null
+}
 
-  const updateQuantity = (id: string, quantity: number) => {
-    dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } });
-  };
+export default function CartPage() {
+  const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([])
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null)
+  const router = useRouter()
+  const supabase = createBrowserSupabaseClient()
 
-  const removeItem = (id: string) => {
-    dispatch({ type: "REMOVE_ITEM", payload: id });
-  };
+  useEffect(() => {
+    checkUser()
+  }, [])
 
-  const subtotal = state.total;
-  const tax = Math.round(subtotal * 0.18);
-  const total = subtotal + tax;
-  const itemCount = state.items.reduce((sum, item) => sum + item.quantity, 0);
+  const checkUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      router.push('/auth/login')
+      return
+    }
+    setUser(user)
+    fetchCartItems(user.id)
+  }
 
-  if (state.items.length === 0) {
-    return (
-      <div className="min-h-screen flex flex-col bg-gray-100">
-        <Header />
-        <main className="flex-grow py-6 max-w-[1500px] mx-auto w-full px-4">
-          <div className="bg-white p-8 border border-gray-200 rounded-sm text-center">
-            <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h10a2 2 0 002-2v-3M8 21h8m-4-4v4" />
-            </svg>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Your SmartCart Cart is empty</h2>
-            <p className="text-gray-600 mb-4">Check your Saved for Later items below</p>
-            <a
-              href="/products"
-              className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium px-6 py-2 rounded-sm text-sm transition-colors inline-block"
-            >
-              Continue Shopping
-            </a>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
+  const fetchCartItems = async (userId: string) => {
+    const { data } = await supabase
+      .from('cart_items')
+      .select('*, products(*)')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+
+    if (data) setCartItems(data as CartItemWithProduct[])
+    setLoading(false)
+  }
+
+  const updateQuantity = async (itemId: string, newQuantity: number) => {
+    if (newQuantity < 1) return
+
+    await supabase
+      .from('cart_items')
+      .update({ quantity: newQuantity })
+      .eq('id', itemId)
+
+    setCartItems(items =>
+      items.map(item =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    )
+  }
+
+  const removeItem = async (itemId: string) => {
+    await supabase
+      .from('cart_items')
+      .delete()
+      .eq('id', itemId)
+
+    setCartItems(items => items.filter(item => item.id !== itemId))
+  }
+
+  const subtotal = cartItems.reduce((sum, item) => {
+    const price = item.products?.price || 0
+    return sum + (price * item.quantity)
+  }, 0)
+
+  if (loading) {
+    return <div className="text-center py-12">Loading...</div>
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
-      <Header />
-      <main className="flex-grow py-6 max-w-[1500px] mx-auto w-full px-4">
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Cart Items */}
-          <div className="flex-grow">
-            <div className="bg-white p-4 sm:p-6 border border-gray-200 rounded-sm">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Shopping Cart</h1>
-              <a href="/products" className="text-sm text-cyan-700 hover:text-orange-600 hover:underline">
-                {itemCount} items
-              </a>
+    <div className="bg-gray-50 min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
-              <div className="border-b border-gray-200 my-4" />
+        {cartItems.length === 0 ? (
+          <div className="text-center py-12 bg-white rounded-lg shadow">
+            <p className="text-gray-500 mb-4">Your cart is empty</p>
+            <Link href="/products" className="text-indigo-600 hover:text-indigo-500">
+              Continue Shopping
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex items-center p-6 border-b last:border-b-0">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md bg-gray-200">
+                      {item.products?.images?.[0] && (
+                        <img
+                          src={item.products.images[0]}
+                          alt={item.products?.name || ''}
+                          className="h-full w-full object-cover"
+                        />
+                      )}
+                    </div>
 
-              {state.items.map((item) => (
-                <div key={item.id} className="flex flex-col sm:flex-row gap-4 py-4 border-b border-gray-200 last:border-b-0">
-                  {/* Image */}
-                  <a href={`/products/${item.id}`} className="flex-shrink-0 w-32 sm:w-44">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-32 sm:h-44 object-contain bg-gray-50"
-                    />
-                  </a>
+                    <div className="ml-4 flex-1">
+                      <Link href={`/products/${item.products?.slug}`}>
+                        <h3 className="text-sm font-medium text-gray-900 hover:text-indigo-600">
+                          {item.products?.name}
+                        </h3>
+                      </Link>
+                      <p className="mt-1 text-sm text-gray-500">
+                        ${item.products?.price.toFixed(2)}
+                      </p>
+                    </div>
 
-                  {/* Details */}
-                  <div className="flex-grow">
-                    <a
-                      href={`/products/${item.id}`}
-                      className="text-base font-medium text-gray-900 hover:text-orange-600 hover:underline line-clamp-2"
-                    >
-                      {item.name}
-                    </a>
-                    <div className="text-xs text-green-700 mt-1">In Stock</div>
-                    {item.supplier && (
-                      <div className="text-xs text-gray-500 mt-1">
-                        Ships from: <span className="text-gray-700">{item.supplier}</span>
-                      </div>
-                    )}
-
-                    {/* Quantity */}
-                    <div className="flex items-center gap-2 mt-3">
-                      <select
-                        value={item.quantity}
-                        onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                        className="border border-gray-300 rounded-md bg-gray-100 hover:bg-gray-200 px-2 py-1 text-sm"
-                      >
-                        {[...Array(10)].map((_, i) => (
-                          <option key={i + 1} value={i + 1}>
-                            Qty: {i + 1}
-                          </option>
-                        ))}
-                      </select>
-                      <span className="text-gray-300">|</span>
+                    <div className="flex items-center space-x-2">
                       <button
-                        onClick={() => removeItem(item.id)}
-                        className="text-sm text-cyan-700 hover:text-orange-600 hover:underline"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="px-2 py-1 border border-gray-300 rounded"
                       >
-                        Delete
+                        -
                       </button>
-                      <span className="text-gray-300">|</span>
-                      <button className="text-sm text-cyan-700 hover:text-orange-600 hover:underline">
-                        Save for later
+                      <span className="px-4">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="px-2 py-1 border border-gray-300 rounded"
+                      >
+                        +
                       </button>
                     </div>
-                  </div>
 
-                  {/* Price */}
-                  <div className="flex-shrink-0 text-right sm:text-left">
-                    <div className="text-lg font-bold">
-                      ₹{(item.price * item.quantity).toLocaleString("en-IN")}
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-900">
+                        ${((item.products?.price || 0) * item.quantity).toFixed(2)}
+                      </p>
                     </div>
+
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="ml-4 text-red-500 hover:text-red-700"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow p-6">
+                <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-500">
+                    <span>Shipping</span>
+                    <span>Calculated at checkout</span>
                   </div>
                 </div>
-              ))}
 
-              <div className="text-right mt-4">
-                <span className="text-lg">
-                  Subtotal ({itemCount} items):{" "}
-                  <span className="font-bold text-gray-900">₹{subtotal.toLocaleString("en-IN")}</span>
-                </span>
+                <div className="border-t pt-4 mb-6">
+                  <div className="flex justify-between font-semibold">
+                    <span>Total</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => router.push('/checkout')}
+                  className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+                >
+                  Proceed to Checkout
+                </button>
+
+                <Link
+                  href="/products"
+                  className="block text-center mt-4 text-sm text-indigo-600 hover:text-indigo-500"
+                >
+                  Continue Shopping
+                </Link>
               </div>
             </div>
           </div>
-
-          {/* Sidebar */}
-          <div className="w-full lg:w-64 flex-shrink-0">
-            <div className="bg-white p-4 border border-gray-200 rounded-sm sticky top-20">
-              <div className="text-sm mb-3">
-                Subtotal ({itemCount} items):{" "}
-                <br />
-                <span className="font-bold text-lg">₹{subtotal.toLocaleString("en-IN")}</span>
-              </div>
-              <label className="flex items-center gap-2 text-sm mb-3 cursor-pointer">
-                <input type="checkbox" className="accent-orange-400" />
-                <span>This order contains a gift</span>
-              </label>
-              <a
-                href="/checkout"
-                className="block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium py-2 rounded-sm text-center text-sm transition-colors"
-              >
-                Proceed to Buy
-              </a>
-              <div className="mt-3 text-xs text-gray-500 space-y-1">
-                <p>Tax: ₹{tax.toLocaleString("en-IN")}</p>
-                <p className="font-bold text-base text-gray-900">
-                  Grand Total: ₹{total.toLocaleString("en-IN")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <Footer />
+        )}
+      </div>
     </div>
-  );
+  )
 }

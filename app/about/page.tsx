@@ -1,52 +1,58 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+'use client'
 
-export default function About() {
+import Layout from '@/components/layout/Layout'
+
+export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
-      <Header />
-      <main className="flex-grow max-w-[1000px] mx-auto w-full px-4 py-6">
-        <div className="bg-white border border-gray-200 rounded-sm p-6 sm:p-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">About SmartCart</h1>
+    <Layout>
+      <div className="bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow p-8 md:p-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+              About Us
+            </h1>
 
-          <div className="prose max-w-none text-gray-700">
-            <p className="mb-4">
-              Welcome to SmartCart.in, your one-stop destination for smart home devices and electronics at the best prices in India. We bring you a curated selection of quality products from trusted suppliers across the globe.
-            </p>
+            <div className="prose max-w-none">
+              <p className="text-lg text-gray-600 mb-6">
+                Welcome to Dropship, your premier destination for quality products at unbeatable prices. 
+                We are dedicated to providing an exceptional shopping experience with a curated selection 
+                of products from around the world.
+              </p>
 
-            <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">Why Shop With Us?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-1">Best Prices</h3>
-                <p className="text-sm">We negotiate directly with suppliers to bring you the lowest prices guaranteed.</p>
+              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4">Our Mission</h2>
+              <p className="text-gray-600 mb-6">
+                To make quality products accessible to everyone through innovative dropshipping solutions, 
+                connecting customers with the best products while ensuring fast, reliable delivery and 
+                outstanding customer service.
+              </p>
+
+              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4">What We Offer</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+                <div className="text-center p-6 bg-gray-50 rounded-lg">
+                  <h3 className="text-xl font-semibold mb-2">Quality Products</h3>
+                  <p className="text-gray-600">Carefully curated products that meet our high standards</p>
+                </div>
+                <div className="text-center p-6 bg-gray-50 rounded-lg">
+                  <h3 className="text-xl font-semibold mb-2">Fast Shipping</h3>
+                  <p className="text-gray-600">Quick and reliable shipping to your doorstep</p>
+                </div>
+                <div className="text-center p-6 bg-gray-50 rounded-lg">
+                  <h3 className="text-xl font-semibold mb-2">24/7 Support</h3>
+                  <p className="text-gray-600">Dedicated customer support whenever you need it</p>
+                </div>
               </div>
-              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-1">Fast Delivery</h3>
-                <p className="text-sm">Free delivery on most orders. Get your items delivered right to your doorstep.</p>
-              </div>
-              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-1">Easy Returns</h3>
-                <p className="text-sm">Not satisfied? Return within 30 days for a full refund, no questions asked.</p>
-              </div>
-              <div className="bg-gray-50 p-4 rounded-sm border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-1">24/7 Support</h3>
-                <p className="text-sm">Our customer service team is always ready to help with any queries.</p>
-              </div>
+
+              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4">Our Values</h2>
+              <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                <li>Customer satisfaction is our top priority</li>
+                <li>Integrity and transparency in all our dealings</li>
+                <li>Continuous improvement of our products and services</li>
+                <li>Sustainable and ethical business practices</li>
+              </ul>
             </div>
-
-            <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">Our Story</h2>
-            <p className="mb-4">
-              Founded in 2026, SmartCart started with a simple idea: make smart home technology accessible to everyone in India. Today, we serve thousands of customers across the country, offering everything from smart thermostats and security cameras to LED lighting and more.
-            </p>
-
-            <h2 className="text-xl font-bold text-gray-900 mt-6 mb-3">Contact Us</h2>
-            <p className="mb-4">
-              Have questions or feedback? Reach out to us at <a href="mailto:support@smartcart.in" className="text-cyan-700 hover:underline">support@smartcart.in</a> or call us at <span className="font-bold">1800-XXX-XXXX</span> (toll-free).
-            </p>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
-  );
+      </div>
+    </Layout>
+  )
 }

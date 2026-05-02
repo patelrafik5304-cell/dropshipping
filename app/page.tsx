@@ -1,102 +1,60 @@
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import HeroBanner from "./components/HeroBanner";
-import CategoryCards from "./components/CategoryCards";
-import DealsStrip from "./components/DealsStrip";
-import FeaturedProducts from "./components/FeaturedProducts";
+import HeroBanner from '@/components/home/HeroBanner'
+import FeaturedProducts from '@/components/home/FeaturedProducts'
+import Categories from '@/components/home/Categories'
+import Testimonials from '@/components/home/Testimonials'
+import Newsletter from '@/components/home/Newsletter'
+import Layout from '@/components/layout/Layout'
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
-      <Header />
-      <main className="flex-grow">
-        <HeroBanner />
-        <CategoryCards />
-        <div className="mt-6">
-          <DealsStrip />
-        </div>
-        <FeaturedProducts />
+    <Layout>
+      <HeroBanner />
+      <FeaturedProducts />
+      <Categories />
+      
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Us</h2>
+            <p className="text-gray-600">We provide the best dropshipping experience</p>
+          </div>
 
-        {/* Sign-in Banner */}
-        <div className="mx-4 sm:mx-6 md:mx-8 mb-6">
-          <div className="bg-gradient-to-r from-gray-800 to-gray-700 text-white p-6 sm:p-8 rounded-sm text-center">
-            <p className="text-sm sm:text-base mb-3">
-              See personalised recommendations
-            </p>
-            <a
-              href="/login"
-              className="bg-orange-400 hover:bg-orange-500 text-gray-900 font-semibold px-8 py-2 rounded-sm text-sm transition-colors inline-block"
-            >
-              Sign in
-            </a>
-            <p className="text-xs text-gray-400 mt-2">
-              New customer? <a href="/login" className="text-cyan-400 hover:underline">Start here</a>
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6">
+              <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Free Shipping</h3>
+              <p className="text-gray-600">Free shipping on orders over $100</p>
+            </div>
+
+            <div className="text-center p-6">
+              <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Secure Payment</h3>
+              <p className="text-gray-600">100% secure payment processing</p>
+            </div>
+
+            <div className="text-center p-6">
+              <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">24/7 Support</h3>
+              <p className="text-gray-600">Dedicated support anytime</p>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* More category rows */}
-        <div className="bg-white mx-4 sm:mx-6 md:mx-8 mb-6 border border-gray-200 p-4 sm:p-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-            Top picks in Electronics
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {[
-              { title: "Smart Speakers", img: "https://images.unsplash.com/photo-1543512214-318c7553f230?w=300&q=80" },
-              { title: "Headphones", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&q=80" },
-              { title: "Watches", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&q=80" },
-              { title: "Laptops", img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300&q=80" },
-              { title: "Cameras", img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&q=80" },
-              { title: "Tablets", img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300&q=80" },
-            ].map((item, i) => (
-              <a key={i} href="/products" className="group cursor-pointer">
-                <div className="aspect-square overflow-hidden bg-gray-50 mb-2 rounded-sm">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <p className="text-sm text-gray-700 group-hover:text-orange-600 transition-colors">
-                  {item.title}
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Recently Viewed / Inspiration */}
-        <div className="bg-white mx-4 sm:mx-6 md:mx-8 mb-6 border border-gray-200 p-4 sm:p-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-            Inspiration for your home
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { title: "Kitchen & Dining", img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80", tag: "Up to 60% off" },
-              { title: "Furniture", img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80", tag: "Starting ₹2,999" },
-              { title: "Bathroom Essentials", img: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80", tag: "Min 30% off" },
-              { title: "Bedding & Linens", img: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&q=80", tag: "From ₹499" },
-            ].map((item, i) => (
-              <a key={i} href="/products" className="group cursor-pointer border border-gray-200 rounded-sm overflow-hidden">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span className="absolute bottom-2 left-2 bg-white/90 text-gray-900 text-xs font-medium px-2 py-1 rounded-sm">
-                    {item.tag}
-                  </span>
-                </div>
-                <p className="p-3 text-sm font-medium text-gray-900 group-hover:text-orange-600 transition-colors">
-                  {item.title}
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
+      <Testimonials />
+      <Newsletter />
+    </Layout>
+  )
 }

@@ -1,230 +1,140 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { useProducts } from "../context/CartContext";
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { createBrowserSupabaseClient } from '@/lib/supabase'
+import type { Product, Order, Profile } from '@/types/supabase'
 
-export default function Admin() {
-  const { state, dispatch } = useProducts();
-  const [activeTab, setActiveTab] = useState('products');
-  const [formData, setFormData] = useState({
-    name: '',
-    category: 'thermostats',
-    price: '',
-    originalPrice: '',
-    description: '',
-    image: '',
-    supplier: ''
-  });
+export default function AdminDashboard() {
+  const [user, setUser] = useState<Profile | null>(null)
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalOrders: 0,
+    totalCustomers: 0,
+    totalRevenue: 0
+  })
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+  const supabase = createBrowserSupabaseClient()
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  useEffect(() => {
+    checkAdmin()
+  }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newProduct = {
-      name: formData.name,
-      category: formData.category,
-      price: parseFloat(formData.price),
-      originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
-      description: formData.description,
-      features: [],
-      image: formData.image || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
-      supplier: formData.supplier,
-      rating: 0,
-      reviews: 0,
-      inStock: true
-    };
-    dispatch({ type: 'ADD_PRODUCT', payload: newProduct });
-    setFormData({
-      name: '',
-      category: 'thermostats',
-      price: '',
-      originalPrice: '',
-      description: '',
-      image: '',
-      supplier: ''
-    });
-    alert('Product added successfully!');
-  };
-
-  const deleteProduct = (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
-      dispatch({ type: 'DELETE_PRODUCT', payload: id });
+  const checkAdmin = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      router.push('/auth/login')
+      return
     }
-  };
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile || profile.role !== 'admin') {
+      router.push('/')
+      return
+    }
+
+    setUser(profile)
+    fetchStats()
+  }
+
+  const fetchStats = async () => {
+    const [products, orders, customers, revenue] = await Promise.all([
+      supabase.from('products').select('id', { count: 'exact' }),
+      supabase.from('orders').select('id', { count: 'exact' }),
+      supabase.from('profiles').select('id', { count: 'exact' }).eq('role', 'customer'),
+      supabase.from('orders').select('total_amount').eq('payment_status', 'paid')
+    ])
+
+    const totalRevenue = revenue.data?.reduce((sum, order) => sum + order.total_amount, 0) || 0
+
+    setStats({
+      totalProducts: products.count || 0,
+      totalOrders: orders.count || 0,
+      totalCustomers: customers.count || 0,
+      totalRevenue
+    })
+    setLoading(false)
+  }
+
+  if (loading) {
+    return <div className="text-center py-12">Loading...</div>
+  }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-8">Admin Panel</h1>
+    <div className="bg-gray-50 min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
 
-          {/* Navigation Tabs */}
-          <div className="mb-8">
-            <nav className="flex space-x-4">
-              <button
-                onClick={() => setActiveTab('products')}
-                className={`px-4 py-2 rounded-lg font-medium ${
-                  activeTab === 'products'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                Products Management
-              </button>
-              <a
-                href="/admin/orders"
-                className="px-4 py-2 rounded-lg font-medium bg-gray-200 text-gray-700 hover:bg-gray-300"
-              >
-                Orders Management
-              </a>
-            </nav>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-sm font-medium text-gray-500">Total Products</h3>
+            <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalProducts}</p>
+            <Link href="/admin/products" className="text-sm text-indigo-600 hover:text-indigo-500 mt-2 inline-block">
+              Manage Products →
+            </Link>
           </div>
 
-          {activeTab === 'products' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
-              <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="thermostats">Thermostats</option>
-                    <option value="cameras">Security Cameras</option>
-                    <option value="lighting">Smart Lighting</option>
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
-                    <input
-                      type="number"
-                      name="price"
-                      step="0.01"
-                      value={formData.price}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Original Price (₹)</label>
-                    <input
-                      type="number"
-                      name="originalPrice"
-                      step="0.01"
-                      value={formData.originalPrice}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    required
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                  <input
-                    type="url"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleInputChange}
-                    placeholder="https://example.com/image.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Supplier</label>
-                  <select
-                    name="supplier"
-                    value={formData.supplier}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Select Supplier</option>
-                    <option value="AliExpress">AliExpress</option>
-                    <option value="CJdropshipping">CJdropshipping</option>
-                    <option value="Spocket">Spocket</option>
-                    <option value="Modalyst">Modalyst</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
-                >
-                  Add Product
-                </button>
-              </form>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Current Products ({state.products.length})</h2>
-              <div className="space-y-4 max-h-96 overflow-y-auto">
-                {state.products.map((product) => (
-                  <div key={product.id} className="bg-white p-4 rounded-lg shadow-md flex items-center space-x-4">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <div className="flex-grow">
-                      <h3 className="font-semibold">{product.name}</h3>
-                      <p className="text-gray-600 text-sm">₹{product.price.toLocaleString()}</p>
-                      <p className="text-gray-500 text-xs">{product.supplier}</p>
-                    </div>
-                    <button
-                      onClick={() => deleteProduct(product.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-sm font-medium text-gray-500">Total Orders</h3>
+            <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalOrders}</p>
+            <Link href="/admin/orders" className="text-sm text-indigo-600 hover:text-indigo-500 mt-2 inline-block">
+              View Orders →
+            </Link>
           </div>
-          )}
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-sm font-medium text-gray-500">Customers</h3>
+            <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalCustomers}</p>
+            <Link href="/admin/customers" className="text-sm text-indigo-600 hover:text-indigo-500 mt-2 inline-block">
+              View Customers →
+            </Link>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-sm font-medium text-gray-500">Revenue</h3>
+            <p className="text-3xl font-bold text-gray-900 mt-2">${stats.totalRevenue.toFixed(2)}</p>
+          </div>
         </div>
-      </main>
-      <Footer />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Link href="/admin/products" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">Product Management</h3>
+            <p className="text-gray-600">Add, edit, and manage your product catalog</p>
+          </Link>
+
+          <Link href="/admin/orders" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">Order Management</h3>
+            <p className="text-gray-600">View and update order statuses</p>
+          </Link>
+
+          <Link href="/admin/inventory" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">Inventory Management</h3>
+            <p className="text-gray-600">Track stock levels and manage inventory</p>
+          </Link>
+
+          <Link href="/admin/categories" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">Categories</h3>
+            <p className="text-gray-600">Manage product categories</p>
+          </Link>
+
+          <Link href="/admin/reviews" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">Reviews</h3>
+            <p className="text-gray-600">Approve and manage customer reviews</p>
+          </Link>
+
+          <Link href="/admin/settings" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <h3 className="text-lg font-semibold mb-2">Settings</h3>
+            <p className="text-gray-600">Configure store settings</p>
+          </Link>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
