@@ -1,0 +1,46 @@
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {% for product in collection.products %}
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+          <div class="aspect-w-1 aspect-h-1">
+            <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title }}" class="w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">
+              <a href="{{ product.url }}" class="hover:text-blue-600">{{ product.title }}</a>
+            </h3>
+            <div class="flex items-center mb-2">
+              <div class="flex text-yellow-400">
+                {% for i in (1..5) %}
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                  </svg>
+                {% endfor %}
+              </div>
+              <span class="text-gray-600 text-sm ml-2">(4.5)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="text-lg font-bold text-gray-900">{{ product.price | money }}</span>
+                {% if product.compare_at_price %}
+                  <span class="text-sm text-gray-500 line-through">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+              <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": []
+}
+{% endschema %}

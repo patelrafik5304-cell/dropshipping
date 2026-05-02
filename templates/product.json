@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "product-header": {
+      "type": "product-header",
+      "settings": {}
+    },
+    "product-description": {
+      "type": "product-description",
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "title": "You might also like"
+      }
+    }
+  },
+  "order": ["product-header", "product-description", "related-products"]
+}

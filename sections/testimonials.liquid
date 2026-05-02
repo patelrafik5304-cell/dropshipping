@@ -1,0 +1,123 @@
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-12">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">{{ section.settings.testimonial_1_initial }}</div>
+          <div class="ml-4">
+            <h4 class="font-semibold">{{ section.settings.testimonial_1_name }}</h4>
+            <p class="text-gray-600 text-sm">{{ section.settings.testimonial_1_role }}</p>
+          </div>
+        </div>
+        <p class="text-gray-600">{{ section.settings.testimonial_1_text }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">{{ section.settings.testimonial_2_initial }}</div>
+          <div class="ml-4">
+            <h4 class="font-semibold">{{ section.settings.testimonial_2_name }}</h4>
+            <p class="text-gray-600 text-sm">{{ section.settings.testimonial_2_role }}</p>
+          </div>
+        </div>
+        <p class="text-gray-600">{{ section.settings.testimonial_2_text }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">{{ section.settings.testimonial_3_initial }}</div>
+          <div class="ml-4">
+            <h4 class="font-semibold">{{ section.settings.testimonial_3_name }}</h4>
+            <p class="text-gray-600 text-sm">{{ section.settings.testimonial_3_role }}</p>
+          </div>
+        </div>
+        <p class="text-gray-600">{{ section.settings.testimonial_3_text }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_initial",
+      "label": "Testimonial 1 Initial",
+      "default": "J"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_name",
+      "label": "Testimonial 1 Name",
+      "default": "John Doe"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_role",
+      "label": "Testimonial 1 Role",
+      "default": "Homeowner"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_1_text",
+      "label": "Testimonial 1 Text",
+      "default": "The smart thermostat has saved me so much on energy bills. Highly recommend!"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_initial",
+      "label": "Testimonial 2 Initial",
+      "default": "S"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_name",
+      "label": "Testimonial 2 Name",
+      "default": "Sarah Smith"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_role",
+      "label": "Testimonial 2 Role",
+      "default": "Tech Enthusiast"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_2_text",
+      "label": "Testimonial 2 Text",
+      "default": "Amazing security cameras with crystal clear video. Peace of mind guaranteed."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_initial",
+      "label": "Testimonial 3 Initial",
+      "default": "M"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_name",
+      "label": "Testimonial 3 Name",
+      "default": "Mike Johnson"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_role",
+      "label": "Testimonial 3 Role",
+      "default": "Family Man"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_3_text",
+      "label": "Testimonial 3 Text",
+      "default": "Smart lighting has made our home so much more convenient. Love the voice control!"
+    }
+  ]
+}
+{% endschema %}
