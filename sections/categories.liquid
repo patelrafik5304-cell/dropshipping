@@ -1,0 +1,129 @@
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-12">{{ section.settings.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4 text-center">{{ section.settings.category_1_title }}</h3>
+        <p class="text-gray-600 mb-6 text-center">{{ section.settings.category_1_description }}</p>
+        <div class="text-center">
+          <a href="{{ section.settings.category_1_link }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">{{ section.settings.category_1_button }}</a>
+        </div>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4 text-center">{{ section.settings.category_2_title }}</h3>
+        <p class="text-gray-600 mb-6 text-center">{{ section.settings.category_2_description }}</p>
+        <div class="text-center">
+          <a href="{{ section.settings.category_2_link }}" class="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300">{{ section.settings.category_2_button }}</a>
+        </div>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+        <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold mb-4 text-center">{{ section.settings.category_3_title }}</h3>
+        <p class="text-gray-600 mb-6 text-center">{{ section.settings.category_3_description }}</p>
+        <div class="text-center">
+          <a href="{{ section.settings.category_3_link }}" class="bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-yellow-700 transition duration-300">{{ section.settings.category_3_button }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categories",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "category_1_title",
+      "label": "Category 1 Title",
+      "default": "Thermostats"
+    },
+    {
+      "type": "textarea",
+      "id": "category_1_description",
+      "label": "Category 1 Description",
+      "default": "Smart thermostats for energy-efficient home heating and cooling. Save money and stay comfortable."
+    },
+    {
+      "type": "url",
+      "id": "category_1_link",
+      "label": "Category 1 Link",
+      "default": "/collections/thermostats"
+    },
+    {
+      "type": "text",
+      "id": "category_1_button",
+      "label": "Category 1 Button Text",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "category_2_title",
+      "label": "Category 2 Title",
+      "default": "Security Cameras"
+    },
+    {
+      "type": "textarea",
+      "id": "category_2_description",
+      "label": "Category 2 Description",
+      "default": "Wireless security cameras with HD video and motion detection. Keep your home safe 24/7."
+    },
+    {
+      "type": "url",
+      "id": "category_2_link",
+      "label": "Category 2 Link",
+      "default": "/collections/cameras"
+    },
+    {
+      "type": "text",
+      "id": "category_2_button",
+      "label": "Category 2 Button Text",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "category_3_title",
+      "label": "Category 3 Title",
+      "default": "Smart Lighting"
+    },
+    {
+      "type": "textarea",
+      "id": "category_3_description",
+      "label": "Category 3 Description",
+      "default": "Voice-controlled LED lights and switches. Customize your home's ambiance with ease."
+    },
+    {
+      "type": "url",
+      "id": "category_3_link",
+      "label": "Category 3 Link",
+      "default": "/collections/lighting"
+    },
+    {
+      "type": "text",
+      "id": "category_3_button",
+      "label": "Category 3 Button Text",
+      "default": "Explore"
+    }
+  ]
+}
+{% endschema %}

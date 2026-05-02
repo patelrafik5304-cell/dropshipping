@@ -1,0 +1,65 @@
+<section class="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20 relative overflow-hidden">
+  <div class="absolute inset-0 bg-black opacity-20"></div>
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        {{ section.settings.title }}
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
+        {{ section.settings.subtitle }}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="{{ section.settings.button_link }}" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition duration-300 shadow-lg">
+          {{ section.settings.button_text }}
+        </a>
+        <a href="{{ section.settings.secondary_button_link }}" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition duration-300">
+          {{ section.settings.secondary_button_text }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Control Your Home from Anywhere"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover cutting-edge smart home devices that enhance your lifestyle. From energy-saving thermostats to advanced security systems, transform your home into a modern, efficient space."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link",
+      "default": "/pages/about"
+    }
+  ]
+}
+{% endschema %}

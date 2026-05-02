@@ -1,0 +1,42 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "hero-banner": {
+      "type": "hero-banner",
+      "settings": {
+        "title": "Control Your Home from Anywhere",
+        "subtitle": "Discover cutting-edge smart home devices that enhance your lifestyle. From energy-saving thermostats to advanced security systems, transform your home into a modern, efficient space.",
+        "button_text": "Shop Now",
+        "button_link": "/collections/all",
+        "secondary_button_text": "Learn More",
+        "secondary_button_link": "/pages/about"
+      }
+    },
+    "features": {
+      "type": "features",
+      "settings": {
+        "title": "Why Choose Us?"
+      }
+    },
+    "categories": {
+      "type": "categories",
+      "settings": {
+        "title": "Shop by Category"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "title": "What Our Customers Say"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": ["header", "hero-banner", "features", "categories", "testimonials", "footer"]
+}
