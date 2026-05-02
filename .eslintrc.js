@@ -1,7 +1,5 @@
 module.exports = {
-  env: {
-    NODE_ENV: 'development'
-  },
+  env: {},
   extends: ['next/core-web-vitals'],
   rules: {}
 };
