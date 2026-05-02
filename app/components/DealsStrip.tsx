@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { products } from "../data/products";
 
 const deals = [
@@ -59,11 +60,11 @@ export default function DealsStrip() {
       <div className="p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-            Today's Deals
+            Today&apos;s Deals
           </h2>
-          <a href="/products" className="text-sm text-cyan-700 hover:text-orange-600 hover:underline">
-            See all deals
-          </a>
+          <Link href="/products" className="text-sm text-cyan-700 hover:text-orange-600 hover:underline">
+             See all deals
+           </Link>
         </div>
         <div className="relative">
           <button
@@ -80,11 +81,11 @@ export default function DealsStrip() {
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {deals.map((deal, i) => (
-              <a
-                key={i}
-                href={deal.link}
-                className="flex-shrink-0 w-44 group cursor-pointer"
-              >
+              <Link
+                 key={i}
+                 href={deal.link}
+                 className="flex-shrink-0 w-44 group cursor-pointer"
+               >
                 <div className="relative aspect-square overflow-hidden bg-gray-100 mb-2">
                   <img
                     src={deal.image}
@@ -97,7 +98,7 @@ export default function DealsStrip() {
                 </div>
                 <p className="text-xs text-red-600 font-medium">{deal.discount}</p>
                 <p className="text-sm text-gray-900 truncate">{deal.title}</p>
-              </a>
+              </Link>
             ))}
           </div>
           <button

@@ -1,6 +1,7 @@
 "use client";
 
 import { products } from "../data/products";
+import Link from "next/link";
 import ProductCard from "./ProductCard";
 
 export default function FeaturedProducts() {
@@ -16,12 +17,12 @@ export default function FeaturedProducts() {
           ))}
         </div>
         <div className="mt-4">
-          <a
+          <Link
             href="/products"
             className="text-sm text-cyan-700 hover:text-orange-600 hover:underline"
           >
             See all deals
-          </a>
+          </Link>
         </div>
       </div>
     </div>

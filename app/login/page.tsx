@@ -74,7 +74,7 @@ export default function Login() {
             </form>
 
             <p className="text-xs text-gray-500 mt-4">
-              By continuing, you agree to SmartCart's{" "}
+              By continuing, you agree to SmartCart&apos;s{" "}
               <a href="#" className="text-cyan-700 hover:text-orange-600 hover:underline">Conditions of Use</a>{" "}
               and{" "}
               <a href="#" className="text-cyan-700 hover:text-orange-600 hover:underline">Privacy Notice</a>.

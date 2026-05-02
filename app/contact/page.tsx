@@ -62,7 +62,7 @@ export default function ContactPage() {
                 {submitted ? (
                   <div className="bg-green-50 border border-green-200 text-green-700 p-6 rounded-lg text-center">
                     <h3 className="text-xl font-semibold mb-2">Thank You!</h3>
-                    <p>Your message has been sent successfully. We'll get back to you soon.</p>
+                    <p>Your message has been sent successfully. We&apos;ll get back to you soon.</p>
                   </div>
                 ) : (
                   <>

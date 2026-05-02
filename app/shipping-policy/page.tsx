@@ -16,7 +16,7 @@ export default function ShippingPolicyPage() {
               <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Shipping Destinations</h2>
               <p className="text-gray-600 mb-6">
                 We currently ship to the United States, Canada, and the United Kingdom. 
-                We're working on expanding our shipping destinations.
+                 We&apos;re working on expanding our shipping destinations.
               </p>
 
               <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Shipping Methods</h2>
@@ -40,7 +40,7 @@ export default function ShippingPolicyPage() {
 
               <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Delivery Issues</h2>
               <p className="text-gray-600 mb-6">
-                If your order hasn't arrived within the estimated timeframe, please check the 
+                 If your order hasn&apos;t arrived within the estimated timeframe, please check the
                 tracking information. If there are issues, contact our customer service team 
                 for assistance.
               </p>

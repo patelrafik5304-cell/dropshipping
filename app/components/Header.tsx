@@ -112,7 +112,7 @@ export default function Header() {
             All
           </div>
 
-          <Link href="/products" className="p-2 border border-transparent hover:border-white rounded-sm flex-shrink-0">Today's Deals</Link>
+          <Link href="/products" className="p-2 border border-transparent hover:border-white rounded-sm flex-shrink-0">Today&apos;s Deals</Link>
           <Link href="/products" className="p-2 border border-transparent hover:border-white rounded-sm flex-shrink-0 hidden sm:block">Customer Service</Link>
           <Link href="/products" className="p-2 border border-transparent hover:border-white rounded-sm flex-shrink-0">Registry</Link>
           <Link href="/products" className="p-2 border border-transparent hover:border-white rounded-sm flex-shrink-0 hidden sm:block">Gift Cards</Link>

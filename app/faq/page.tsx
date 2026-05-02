@@ -11,11 +11,11 @@ export default function FAQPage() {
   const faqs = [
     {
       question: "What is dropshipping?",
-      answer: "Dropshipping is a retail fulfillment method where we don't keep the products we sell in stock. Instead, when you purchase a product, it is shipped directly from our supplier to you."
+      answer: "Dropshipping is a retail fulfillment method where we don&apos;t keep the products we sell in stock. Instead, when you purchase a product, it is shipped directly from our supplier to you."
     },
     {
       question: "How long does shipping take?",
-      answer: "Shipping times vary depending on your location and the product. Typically, orders are delivered within 5-10 business days. You'll receive a tracking number once your order ships."
+      answer: "Shipping times vary depending on your location and the product. Typically, orders are delivered within 5-10 business days. You&apos;ll receive a tracking number once your order ships."
     },
     {
       question: "What is your return policy?",
@@ -23,7 +23,7 @@ export default function FAQPage() {
     },
     {
       question: "How can I track my order?",
-      answer: "Once your order ships, you'll receive an email with a tracking number. You can use this number to track your package on our website or the carrier's website."
+      answer: "Once your order ships, you&apos;ll receive an email with a tracking number. You can use this number to track your package on our website or the carrier&apos;s website."
     },
     {
       question: "Do you ship internationally?",
